@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NGL • Anonymous Message</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        /* Card Utama */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 30px 25px;
+            border: 2px solid #4ecca7;
+            box-shadow: 0 20px 50px rgba(78, 204, 167, 0.2);
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(145deg, #4ecca7, #2b9b7a);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 3em;
+            color: white;
+            box-shadow: 0 15px 30px rgba(78, 204, 167, 0.4);
+        }
+        
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+        
+        .sub {
+            color: #4ecca7;
+            font-size: 1em;
+            font-weight: 500;
+        }
+        
+        .username {
+            background: #4ecca7;
+            color: #1a1a2e;
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(78, 204, 167, 0.4);
+        }
+        
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            border: 1px solid rgba(78, 204, 167, 0.3);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            color: #4ecca7;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            color: #aaa;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Question Box */
+        .question-box {
+            background: rgba(78, 204, 167, 0.05);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid rgba(78, 204, 167, 0.3);
+        }
+        
+        .question-text {
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .question-badge {
+            background: #4ecca7;
+            color: #1a1a2e;
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        /* Input Area */
+        .input-area {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(78, 204, 167, 0.3);
+        }
+        
+        .message-input {
+            width: 100%;
+            background: transparent;
+            border: 2px solid rgba(78, 204, 167, 0.3);
+            border-radius: 25px;
+            padding: 18px 20px;
+            color: white;
+            font-size: 1em;
+            margin-bottom: 15px;
+            resize: none;
+            min-height: 100px;
+            font-family: inherit;
+        }
+        
+        .message-input:focus {
+            outline: none;
+            border-color: #4ecca7;
+        }
+        
+        .message-input::placeholder {
+            color: #666;
+        }
+        
+        /* Send Button */
+        .send-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(145deg, #4ecca7, #2b9b7a);
+            border: none;
+            border-radius: 40px;
+            color: #1a1a2e;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(78, 204, 167, 0.4);
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(78, 204, 167, 0.6);
+        }
+        
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Info */
+        .info-text {
+            color: #888;
+            font-size: 0.85em;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        /* Recent Messages */
+        .recent-title {
+            color: #aaa;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .recent-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid rgba(78, 204, 167, 0.2);
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .recent-text {
+            color: white;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+        
+        .recent-time {
+            color: #666;
+            font-size: 0.75em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .recent-badge {
+            background: #4ecca7;
+            color: #1a1a2e;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 0.85em;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(78, 204, 167, 0.2);
+        }
+        
+        .footer span {
+            color: #4ecca7;
+            font-weight: 600;
+        }
+        
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(78, 204, 167, 0.2);
+            border-top-color: #4ecca7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Alert */
+        .alert {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4ecca7;
+            color: #1a1a2e;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(78, 204, 167, 0.5);
+            animation: popUp 0.3s ease;
+        }
+        
+        @keyframes popUp {
+            from { transform: translateX(-50%) translateY(50px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        /* Counter Badge */
+        .counter-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4ecca7;
+            color: #1a1a2e;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(78, 204, 167, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Counter Badge -->
+    <div class="counter-badge" id="counterBadge">💬 PESAN 1</div>
+    
+    <!-- Alert -->
+    <div class="alert" id="alertMsg">✅ Pesan terkirim ke @rianzx</div>
+    
+    <div class="container">
+        <div class="card">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">💌</div>
+                <h1>NGL</h1>
+                <div class="sub">anonymous message</div>
+                <div class="username">@rianzx</div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="messageCount">24</div>
+                    <div class="stat-label">PESAN</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="todayCount">7</div>
+                    <div class="stat-label">HARI INI</div>
+                </div>
+            </div>
+            
+            <!-- Question Box -->
+            <div class="question-box">
+                <div class="question-badge">🔥 HOT QUESTION</div>
+                <div class="question-text">
+                    "Kirim pesan rahasia ke @rianzx"
+                </div>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="input-area">
+                <textarea class="message-input" id="messageInput" placeholder="Ketik pesan anonymous..." rows="3"></textarea>
+                
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <span>➤</span> KIRIM PESAN
+                </button>
+                
+                <div class="info-text">
+                    ✨ Pesan akan dikirim secara anonim
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p style="color:#aaa;">Mengirim pesan...</p>
+                </div>
+            </div>
+            
+            <!-- Recent Messages -->
+            <div class="recent-title">
+                <span>📨 Pesan Terbaru</span>
+                <span style="color:#4ecca7; font-size:0.8em;">anonim</span>
+            </div>
+            
+            <div class="recent-list" id="recentList">
+                <!-- Akan diisi JavaScript -->
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <span>⚡ REACTION BY RIAN ⚡</span>
+                <br>
+                © 2025 NGL • anonymous messaging
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 🔥 WEBHOOK DISCORD PUNYA LO
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1482564489306968125/XpQpJE-ExRnkWf9ARo8hlfbzJ_WeB6ItFHTtGu0xbSoNhYxrJXiIEIXcn7XuBr2h7chg";
+        
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const loading = document.getElementById('loading');
+        const alertMsg = document.getElementById('alertMsg');
+        const counterBadge = document.getElementById('counterBadge');
+        const messageCount = document.getElementById('messageCount');
+        const todayCount = document.getElementById('todayCount');
+        const recentList = document.getElementById('recentList');
+        
+        // Counter
+        let counter = localStorage.getItem('nglCounter') ? parseInt(localStorage.getItem('nglCounter')) : 1;
+        let totalMessages = localStorage.getItem('nglTotal') ? parseInt(localStorage.getItem('nglTotal')) : 24;
+        let todayMessages = localStorage.getItem('nglToday') ? parseInt(localStorage.getItem('nglToday')) : 7;
+        
+        counterBadge.textContent = `💬 PESAN ${counter}`;
+        messageCount.textContent = totalMessages;
+        todayCount.textContent = todayMessages;
+        
+        // Load recent messages
+        let recentMessages = JSON.parse(localStorage.getItem('nglRecent')) || [
+            "Halo rahasia nih",
+            "Aku suka sama kamu",
+            "Keren banget profile lo",
+            "Mau kenalan?",
+            "Ga nyangka bisa chat di sini"
+        ];
+        
+        // Tampilkan recent messages
+        function displayRecent() {
+            recentList.innerHTML = '';
+            recentMessages.slice(0, 5).forEach((msg, index) => {
+                const time = new Date();
+                time.setMinutes(time.getMinutes() - index * 5);
+                const timeStr = time.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                
+                const item = document.createElement('div');
+                item.className = 'recent-item';
+                item.innerHTML = `
+                    <div class="recent-text">${msg}</div>
+                    <div class="recent-time">
+                        <span>${timeStr}</span>
+                        <span class="recent-badge">ANON</span>
+                    </div>
+                `;
+                recentList.appendChild(item);
+            });
+        }
+        displayRecent();
+        
+        // Fungsi kirim pesan
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            
+            if (!message) {
+                alert('Ketik pesan dulu Bos!');
+                return;
+            }
+            
+            // Disable button
+            sendBtn.disabled = true;
+            loading.classList.add('show');
+            
+            // Kirim ke Discord
+            const webhookMessage = `**💌 NGL - PESAN ${counter}**\n\`\`\`\n${message}\n\`\`\``;
+            
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: webhookMessage
+                    })
+                });
+                
+                if (response.ok) {
+                    console.log(`✅ Pesan ${counter} terkirim ke Discord`);
+                    
+                    // Update counter
+                    counter++;
+                    totalMessages++;
+                    todayMessages++;
+                    
+                    localStorage.setItem('nglCounter', counter);
+                    localStorage.setItem('nglTotal', totalMessages);
+                    localStorage.setItem('nglToday', todayMessages);
+                    
+                    counterBadge.textContent = `💬 PESAN ${counter}`;
+                    messageCount.textContent = totalMessages;
+                    todayCount.textContent = todayMessages;
+                    
+                    // Add to recent
+                    recentMessages.unshift(message);
+                    if (recentMessages.length > 5) recentMessages.pop();
+                    localStorage.setItem('nglRecent', JSON.stringify(recentMessages));
+                    displayRecent();
+                    
+                    // Clear input
+                    messageInput.value = '';
+                    
+                    // Tampilkan alert
+                    loading.classList.remove('show');
+                    alertMsg.classList.add('show');
+                    
+                    setTimeout(() => {
+                        alertMsg.classList.remove('show');
+                    }, 2000);
+                    
+                } else {
+                    throw new Error('Gagal kirim ke Discord');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alertMsg.textContent = '❌ Gagal kirim!';
+                alertMsg.classList.add('show');
+                setTimeout(() => {
+                    alertMsg.classList.remove('show');
+                }, 2000);
+                
+            } finally {
+                loading.classList.remove('show');
+                sendBtn.disabled = false;
+            }
+        }
+        
+        // Enter key
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
